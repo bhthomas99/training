@@ -1,0 +1,216 @@
+---
+title: "Data Cleaning"
+author: "Bruce Thomas"
+date: "3/29/2021"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+## Using  R To manipulate data frames or tibbles
+- examine the variables, in general
+```{r 'checking variables' }
+
+#look at the data
+head(mtcars)
+
+names(mtcars)
+
+#- Use sapply() to get the class of each variable 
+sapply(mtcars,class)
+
+
+#- or use str method
+str(mtcars)
+```
+
+***
+
+## Renaming columns
+
+- dplyr helps to rename and select columns for consistency and clarity
+
+- create a data frame, rename all the variables. Note the order.
+
+```{r renaming}
+df1=data.frame(State=c('Arizona','Georgia', 'Newyork','Indiana','seattle','washington','Texas'),
+               code=c('AZ','GA','NY','IN','ST','WT','TX'),
+               Score=c(62,47,55,74,31,77,85))
+df1
+
+colnames(df1) <- c("State_Name", "State_code","Hindex_Score")
+df1
+
+df1 %>% rename_all(toupper)
+df1 %>% rename_with(tolower)
+names(df1)
+
+##This one plays to the output only, will not replace mtcars
+
+mtcars %>% select(starts_with("C")) %>%rename_with(toupper)
+head(mtcars)
+
+# write to a new data frame
+test <- mtcars %>% select(starts_with("C")) %>%rename_with(toupper)
+names(test)
+head(test)
+
+## by position
+names(df1)[1] <- "US_State_name"
+
+##another method, more programmatic
+names(df1)[names(df1) == "State_code"] <- "US_State_code"
+df1
+
+# consistent lower case for variable names
+select_all(df1,tolower)
+names(df1)
+
+```
+
+*** 
+
+## Managing Missing data
+- Imputing missings
+```{r missings}
+## create a data frame with some missing numeric data
+df2<-data.frame(State=c('Arizona','Georgia', 'Newyork','Indiana','seattle','washington','Texas'),
+               code=c('AZ','GA','NY','IN','ST','WT','TX'),
+               Score=c(NA,47,55,74,31,77,NA))
+df2$Score
+
+## Replace missing value of the column with a zero. Note () for function, brackets for variable(s)
+df2$Score[is.na(df2$Score)]<-0
+
+## Replace missing value of the column with a statistic (mean or median)
+df2$Score[is.na(df2$Score)]<-mean(df2$Score)
+df2
+```
+
+***
+
+## Modifying columns
+
+-  - Replace the character column of dataframe in R:
+-  - Replace first occurrence :
+-  - str_replace() function of “stringr” package is used to replace the first occurrence of the column in R
+
+
+
+```{r column_replacement}
+#example data
+df1=data.frame(State=c('Ariz ona','Georgi a', 'New York','Indiana     ','    seattle','washington','Texas'),
+               code=c('AZ','GA','NY','IN','ST','WT','TX'),
+               Score=c(62,47,55,74,31,77,85))
+df1
+
+
+##getting the str* functions from stringr for character data
+library(stringr)
+
+## replace from->to
+df1$no_blanks = str_replace(df1$State," ","")
+
+
+# Replace all the occurrence : 
+
+df1$replace_state = str_replace_all(df1$State,"e","E")
+
+
+#proper Case
+df1$propcase<-str_to_title(df1$no_blanks)
+
+df1$all_lower<-tolower(df1$propcase)
+
+#see the results
+
+df1
+
+```
+***
+
+## Subsetting using DPLYR : Column selection
+- - The Magrittr pipe %>%, included with the tidyverse package allows you to string commands together.
+
+- - create subset of columns/ variables using select(), pass to a data frame
+- - Using the Pipe ` %>% ` to chain dplyr functions
+-   Tidyverse selections implement a dialect of R where operators make it easy to select variables:
+- - : for selecting a range of consecutive variables.
+- - ! for taking the complement of a set of variables.
+- - & and | for selecting the intersection or the union of two sets of variables.
+- - c() for combining selections.
+-  dplyr::select() Returns An object of the same type as .data. The output has the following properties:
+- -  Rows are not affected.
+- -  Output columns are a subset of input columns, potentially with a different order. Columns will be renamed if new_name = old_name form is used.
+- - Data frame attributes are preserved.
+- - Groups are maintained; you can't select off grouping variables.
+
+```{r column_operations}
+
+##load dplyr and the other 'tidy' packages
+library(tidyverse)
+
+
+#select variables/columns to use. The dataframe is always the first parameter
+# if not indicated, it can be is picked up by the magriottr pipe
+power<-select(mtcars,cyl,hp)
+names(power)
+
+##exclude variables from selection
+cars<-select(mtcars,-cyl,-hp) 
+names(cars)
+
+#negate the selection of speciific variables in a list. Creatre a new data frame using the %>% pipe
+nopower<-mtcars%>% select(!c(cyl,hp))
+nopower
+
+# apply a DPLYR selection helper
+mtcars %>% select(ends_with( 'arb'))
+
+
+##Select comes before renaming, do this just for the MPG,CYL,DISP and HP, these are consecutive variables in mg:hp expression
+mtcars %>% rename_with(toupper,mpg:hp)
+names(mtcars)
+
+##  use the contains and starts-with helper functions
+cars %>%
+  select(contains("ar") & starts_with("c"))
+
+## any_of  Same as all_of(), except that no error is thrown for names that don't exist.
+vars<-c("cyl","CARB","carb","mpg")
+cars %>%  select(any_of(vars))
+    
+  
+##select takes a function as a parameter
+mtcars %>% select(where(function(x) is.numeric(x))) 
+
+#select based on characteristics of variables. Note the '~' is shorthand for the function call
+mtcars%>% select(where(~ is.numeric(.x)))
+
+# USing discrete integer variables selecting columns that are numeric and where there are 4 cylinders
+mtcars %>% select(cyl,where(~ is.numeric(.x) && floor(.x) == 4))
+
+```
+***
+
+- ## Manipulating  the Rows
+
+- - filter() the data
+- - arrange() or sort the data
+- - group_by to group the data
+- - summarize() the data
+
+## Making New Variables
+## Wide to Long to Wide to…
+ 
+### Goals:
+
+1.1. Understand how to clean up column names automatically using clean_names() or manually using rename()
+1.2 Know how to create subsets of data using select()
+1.3. Be able to “pipe” %>% data through a series of dplyr functions
