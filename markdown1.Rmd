@@ -1,0 +1,52 @@
+---
+title: " R markdown Basics"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#*R-Ladies Sydney Basic R markdown Tutorial
+
+- R markdown is a distinct type of R object that you can create using the File-New R Markdown feature in R Studio. 
+- Once you save it, you get a default template based on the cars dataret which is packaged with R studio. You can then edit this section out.
+- You can use the RStudio ** Knit ** button to render the resulting *.RMD file.
+- You need to separate your entries by a newline or a space
+
+# Headings use the "#"  tag
+# Heading 1
+## heading2
+### heading3
+#### etc...
+
+#bold and italics using asterisks
+
+For **bold use two asterisks**
+
+For Italics, *use 1*
+
+#Make bullet points with the *dash* (**_**). Make sure there's a space after the dash
+
+- hello
+-- this is indented, I wanted two indents, only got one
+- - this is also indented
+- - - even more indents
+
+# Get quotes using the < and >
+
+>"Note that **NO** space is needed"  *Bruce Thomas*
+
+## Embed links using a combination of square and round brackets
+
+[Find RMD resources here]
+{https://github.com/jenrichmond/RMarkdownThrowdown)
+
+# Same syntax with with images, gifs and tweets in the same location as the *.RMD file:
+
+
+
+Use the > ! exclamation  point, square brackets
+use `![](YourImageHere.png)`  << must be in the local folder
+
+##### Note that backticks ``` can be used to rep[resent the embed code as text for this example

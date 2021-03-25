@@ -1,0 +1,76 @@
+---
+title: "Navitas R Training proposal"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R training for Statistical programming
+# Goals
+- - define the training population
+- - describe basic training formats
+- - define methods
+
+# Needs
+## Target Population:
+-   statistical programmers who are
+- - adult learners
+- - Using open source tools
+- - to manipulate data and produce reports
+- - in a regulated environment
+
+Statistical programmers are widely used in clinical trial settings to function as an integral part of the Biostatistics arm of the study team. They usually work with datasets that are based on various case report forms collected during a trial and are primarily involved in developing reports that aggregate results in accordance with specified derivations. Their work may include exploratory analysis, adhoc as well as standard reporting, data aggregation, data cleaning, and data manipulation to meet analysis objectives. As adult learners, they tend to learn best when they are exposed to content that they can immediately access and use to get the job done so it is accurate and reproducible, and many will prefer to learn from the feedback gained during this experience rather than rely solely on classroom presentations.  
+
+Most statistical programmers have been exposed to multiple ways of solving problems using SAS, STATA or SPSS, and this is often self-taught or based on in-service training. They usually understand functional programming and data structures, but from the Statistical Package language's perspective. In many cases, they may have experience with writing or editing various scripts to use to wrap around their programs, although each operating system may have different requirements and limitations. Many programmers are familair with Windows and Unix operating systems, and some will have experience with older mainframe systems as well. 
+
+Increased processing power and expanded use of computer-based collaboration environments may result in more reliance on web-based reporting, and with  it, significantly different workflows to help study teams stay current with the data and make sure it is accurate and correct. Many companies are pursuing learning and using open source tools to offset the cost and extend the functionality of their statistical programmers so they can augment, enhance  or even replace, existing approaches to doing their work.  There is a lot of information available, but most of it was or is curated for highly specialized areas(e.g. Genomics). In addition, various factors(e.g. bias, legacy programming methods, incompatible versions) may limit the usefulness of various solutions.  In the case of R, many experience frustration using the Open Source threads to gain information: one person's solution may not work for the problem a programmer is having, and "you can spend a lot of time searching for a basic issue that you could fix easily in SAS in 5 minutes" can be a common complaint against using open source solutions at all.
+
+Statistical Programmers are a diverse population. An effective  R training program for them needs to incorporate training which
+
+- - Supports collaboration
+- - Minimizes confusion
+- - Is Based on a range of relevant examples
+- - Has immediate applicability to the work 
+- - Provides pathways to more in-depth learning or reference.
+- - Promotes R as an extension rather than a substitution for their work in SAS
+
+
+# Environment 
+ The R environment has long been seen as a distinct programming environment that creates its own structure on a computer drive. Earlier versions even required a command line interface borrowed from the Unix environment. What this means is that there can be a set of programs that the programmer is required to understand an organize as its own little file system. version control -- if any-- had to be applied through an additional application, as in GIT for windows. The main parts of R are written in C and some include fortran routines so much of the base code is implemented using various scripts and functions.  The individual using R has typically been responsible for maintaining libraries, packages across R versions.
+
+## R studio
+ 
+R Studio https://www.rstudio.com/ has emerged as the premier IDE for R development in the past several years, keeping pace with improvements in technology and organizational trends to enhance collaboration between various producers and consumers of clinical trials data. RStudio is an integrated development environment (IDE) for R. It includes a console, syntax-highlighting editor that supports direct code execution, as well as tools for plotting, history, debugging and workspace management. 
+
+RStudio is available in open source and commercial editions and runs on the desktop (Windows, Mac, and Linux) or in a browser connected to RStudio Server or RStudio Server Pro (Debian/Ubuntu, Red Hat/CentOS, and SUSE Linux). The R Studio organization also provides hosted services on the Cloud.
+
+### R Studio in the cloud 
+
+The 'free' version of R studio is subject to the Open Source Licensing, and is generally free for inspection to individual users and incorporates several open source libraries that are customized for version control, data structures, data cleaning and manipulation, and reporting in the data sciences. The 'tidyverse' consisting of several R packages organized around an ADAM or SDTM data structure. 
+
+R Studio on the desktop is free and downloadable. However, the implementation, updating and  maintenance devolves to the end user.  While not overly difficult to maintain, it does tend to get out of synch with what others are doing, as the packages are tested for a given version of R.  This is perhaps the primary reason it is not widely used in statistical programming which requires a stqandard validated approach.
+
+R studio on the Cloud https://rstudio.cloud  is free to people  who  make limited, occasional use of RStudio. For individuals, There is a Free plan and a Plus plan. In both, an individual can have up to 15 projects, defined as or up to 15 separate projects in a user's workspace capped at 15 hours per month. For bigger projects, cloud Plus offers more hours per month and charges for any overages; it is not capped. Project hours represent how much time a project is open or running with a particular configuration, computed as (RAM + CPUs allocated) / 2 x hours. For example, working with a project for 1 hour with 1 GB of RAM and 1 CPU allocated consumes 1 project hour.  The advantages to these are that the user does not have to do much other than log into a cloud-based IDE.
+
+### R Studio Instructor 
+
+See: https://rstudio.cloud/plans/instructor
+
+As an incentive to expand the user community, R studio offers a cloud package for Instructors to use available for $15/month + usage in excess of 160 hours per month. There is no upper limit on projects.
+
+## Navitas implementation
+Plan A:  use Instructor-based cloud training for the existing R training curriculum, offered in a series of basic 1/2 hour  sessions over an 8 week period. AT the conclusion of this, evaluate the effect on trainee content knowledge, trainee use of reference materials and 
+actual application in a practice setting. This should also provide an idea of what if any overages will occur
+
+
+Plan B:  use Instructor-based cloud training for a series of focused sessions on using the  R 'tidyverse' in clinical trials. These would be structured as a series of lab workshops of 30 minutes each over an 8 week period. The workshops would provide in depth coverage of data manipulation, functions and other topics as may be identified by project managers.
+
+## Evaluation
+
+Evaluation will consist of participant satisfaction, supervisory follow up and exams to measure knowledge gain and retention.  A review of the cost and overall effect of the training will be conducted at 3 and 6 months.
+
+
+
+
