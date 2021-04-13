@@ -4,16 +4,33 @@ author: "Bruce Thomas"
 date: "3/29/2021"
 output:
   html_document:
-    toc: true
-    toc_float: true
-    
+    toc: yes
+    toc_float: yes
+  slidy_presentation: default
+  ioslides_presentation: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
-## Using  R To manipulate data frames or tibbles
+
+
+# Using  R To manipulate data frames or tibbles
+## Goals:
+
+- 1.1. Understand how to clean up column names manually using rename()
+- 1.2  Understand how to work in the 'tidyverse'
+- 1.3  Understand how to deal with Missing data
+- 1.4  Know how to Modify and select columns from a data frame
+- 1.5  Understand how to select rows from a data frame
+- 1.5. Be able to “pipe” %>% data through a series of dplyr functions
+- 1.6  be able to use mutate() and transmute to create or modify variables
+- 1.7  Manipulate rows in a data frame
+
+***
+
+
 - examine the variables, in general
 ```{r 'checking variables' }
 
@@ -102,7 +119,6 @@ df2
 -  - str_replace() function of “stringr” package is used to replace the first occurrence of the column in R
 
 
-
 ```{r column_replacement}
 #example data
 df1=data.frame(State=c('Ariz ona','Georgi a', 'New York','Indiana     ','    seattle','washington','Texas'),
@@ -110,7 +126,7 @@ df1=data.frame(State=c('Ariz ona','Georgi a', 'New York','Indiana     ','    sea
                Score=c(62,47,55,74,31,77,85))
 df1
 
-
+## STRING manipulation
 ##getting the str* functions from stringr for character data
 library(stringr)
 
@@ -118,8 +134,7 @@ library(stringr)
 df1$no_blanks = str_replace(df1$State," ","")
 
 
-# Replace all the occurrence : 
-
+#Replace all the occurrence : 
 df1$replace_state = str_replace_all(df1$State,"e","E")
 
 
@@ -199,18 +214,118 @@ mtcars %>% select(cyl,where(~ is.numeric(.x) && floor(.x) == 4))
 ```
 ***
 
-- ## Manipulating  the Rows
+## Manipulating  Rows in a Data Frame
 
-- - filter() the data
-- - arrange() or sort the data
-- - group_by to group the data
-- - summarize() the data
+-  arrange() or sort the data
+
+```{r "arrange/sort  data"}
+
+```
+
+
+-  selecting rows, filter() the data
+
+-  group_by to group the data
+
+-  summarize() the data
+
+***
 
 ## Making New Variables
+
+-- To split a character string, use the separate() function:
+-- This section is based on  [https://tidyr.tidyverse.org/reference/separate.html]
+
+--- the lubridate() package also available if you need these as numerics right away. Type ? lubridate() in the RStudio console or [https://lubridate.tidyverse.org/]
+
+```{r "separate"}
+    
+library(dplyr)
+# If you want to split by any non-alphanumeric value (the default):
+df <- data.frame(x = c(NA, "x.y", "x.z", "y.z"))
+df %>% separate(x,c("A", "B"))
+
+
+# If you just want the second variable:
+df %>% separate(x, c(NA, "B"))
+
+# If every row doesn't split into the same number of pieces, use
+# the extra and fill arguments to control what happens:
+# You may get warnings:
+df <- data.frame(x = c("x", "x y", "x y z", NA))
+df %>% separate(x, c("a", "b"))
+
+# The same behaviour as previous, but drops the c without warnings:
+df %>% separate(x, c("a", "b"), extra = "drop", fill = "right")
+
+# Opposite of previous, keeping the c and filling left:
+df %>% separate(x, c("a", "b"), extra = "merge", fill = "left")
+
+# Or you can keep all three:
+df %>% separate(x, c("a", "b", "c"))
+
+# To only split a specified number of times use extra = "merge":
+df <- data.frame(x = c("x: 123", "y: error: 7"))
+df %>% separate(x, c("key", "value"), ": ", extra = "merge")
+
+# Use regular expressions to separate on multiple characters:
+df <- data.frame(x = c(NA, "x?y", "x.z", "y:z"))
+df %>% separate(x, c("A","B"), sep = "([.?:])")
+
+# convert = TRUE detects column classes:
+df <- data.frame(x = c("x:1", "x:2", "y:4", "z", NA))
+df %>% separate(x, c("key","value"), ":") %>% str
+
+df %>% separate(x, c("key","value"), ":", convert = TRUE) %>% str
+
+```
+-- Separate() has a unite() counterpart in dplyr package
+-- To split a character string, use the separate() function:
+-- This section is based on  [https://tidyr.tidyverse.org/reference/unite.html]
+
+```{r "unite"}
+df <- expand_grid(x = c("a", NA), y = c("b", NA))
+df
+#> # A tibble: 4 x 2
+#>   x     y    
+#>   <chr> <chr>
+#> 1 a     b    
+#> 2 a     NA   
+#> 3 NA    b    
+#> 4 NA    NA   
+
+df %>% unite("z", x:y, remove = FALSE)
+#> # A tibble: 4 x 3
+#>   z     x     y    
+#>   <chr> <chr> <chr>
+#> 1 a_b   a     b    
+#> 2 a_NA  a     NA   
+#> 3 NA_b  NA    b    
+#> 4 NA_NA NA    NA   
+# To remove missing values:
+df %>% unite("z", x:y, na.rm = TRUE, remove = FALSE)
+#> # A tibble: 4 x 3
+#>   z     x     y    
+#>   <chr> <chr> <chr>
+#> 1 "a_b" a     b    
+#> 2 "a"   a     NA   
+#> 3 "b"   NA    b    
+#> 4 ""    NA    NA   
+
+# Separate is almost the complement of unite
+df %>%
+  unite("xy", x:y) %>%
+  separate(xy, c("x", "y"))
+#> # A tibble: 4 x 2
+#>   x     y    
+#>   <chr> <chr>
+#> 1 a     b    
+#> 2 a     NA   
+#> 3 NA    b    
+#> 4 NA    NA   
+# (but note `x` and `y` contain now "NA" not NA)
+```
+
+
 ## Wide to Long to Wide to…
  
-### Goals:
-
-1.1. Understand how to clean up column names automatically using clean_names() or manually using rename()
-1.2 Know how to create subsets of data using select()
-1.3. Be able to “pipe” %>% data through a series of dplyr functions
