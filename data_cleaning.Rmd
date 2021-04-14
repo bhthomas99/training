@@ -80,6 +80,7 @@ head(test)
 
 ## by position
 names(df1)[1] <- "US_State_name"
+head(df1)
 
 ##another method, more programmatic
 names(df1)[names(df1) == "State_code"] <- "US_State_code"
@@ -160,9 +161,9 @@ df1
 - - ! for taking the complement of a set of variables.
 - - & and | for selecting the intersection or the union of two sets of variables.
 - - c() for combining selections.
--  dplyr::select() Returns An object of the same type as .data. The output has the following properties:
-- -  Rows are not affected.
-- -  Output columns are a subset of input columns, potentially with a different order. Columns will be renamed if new_name = old_name form is used.
+-   dplyr::select() Returns An object of the same type as .data. The output has the following properties:
+- - Rows are not affected.
+- - Output columns are a subset of input columns, potentially with a different order. Columns will be renamed if       new_name = old_name form is used.
 - - Data frame attributes are preserved.
 - - Groups are maintained; you can't select off grouping variables.
 
@@ -173,7 +174,8 @@ library(tidyverse)
 
 
 #select variables/columns to use. The dataframe is always the first parameter
-# if not indicated, it can be is picked up by the magriottr pipe
+# if not indicated, it can be is picked up by the magrittr pipe `%>%'
+# library(tidyr) will activate this
 power<-select(mtcars,cyl,hp)
 names(power)
 
@@ -231,7 +233,7 @@ mtcars %>% select(cyl,where(~ is.numeric(.x) && floor(.x) == 4))
 
 ***
 
-## Making New Variables
+## Making New Variables, dplyr::Separate() and dplyr::unite()
 
 -- To split a character string, use the separate() function:
 -- This section is based on  [https://tidyr.tidyverse.org/reference/separate.html]
@@ -243,8 +245,8 @@ mtcars %>% select(cyl,where(~ is.numeric(.x) && floor(.x) == 4))
 library(dplyr)
 # If you want to split by any non-alphanumeric value (the default):
 df <- data.frame(x = c(NA, "x.y", "x.z", "y.z"))
+## assign some column names to this data frame
 df %>% separate(x,c("A", "B"))
-
 
 # If you just want the second variable:
 df %>% separate(x, c(NA, "B"))
