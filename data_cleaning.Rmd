@@ -3,7 +3,9 @@ title: "Data Cleaning"
 author: "Bruce Thomas"
 date: "3/29/2021"
 output:
+
   html_document:
+    theme: !expr sample(c("yeti", "united", "lumen"), 1)
     toc: yes
     toc_float: yes
   slidy_presentation: default
