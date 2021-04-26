@@ -47,7 +47,18 @@ sapply(mtcars,class)
 
 #- or use str method
 str(mtcars)
+
 ```
+*** 
+
+-- a glimpse into the data
+```{r}
+##there's even this--install.packages("pillar"):
+ library(pillar)
+print( "glimpse() function applied to MTCARS sameple dataset")
+ glimpse(mtcars)
+```
+
 
 ***
 
@@ -103,7 +114,8 @@ names(df1)
 df2<-data.frame(State=c('Arizona','Georgia', 'Newyork','Indiana','seattle','washington','Texas'),
                code=c('AZ','GA','NY','IN','ST','WT','TX'),
                Score=c(NA,47,55,74,31,77,NA))
-df2$Score
+print("DF21 score")
+View(df2$Score)
 
 ## Replace missing value of the column with a zero. Note () for function, brackets for variable(s)
 df2$Score[is.na(df2$Score)]<-0
