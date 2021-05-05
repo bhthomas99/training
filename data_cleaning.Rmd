@@ -490,6 +490,21 @@ new_wider<-long %>% pivot_wider(names_from=site ,values_from=buglevels)
 head(new_wider)
 
 ```
+### pivot_longer() using > 1 identifying column
+
+```{r "pivot multiple"}
+#library(tidyverse)
+#the here package to tell R where your data is,
+#install.packages("here")
+library(here)
+## read in a dataset with large/medium/small columns for each of 7 items
+frames_wide<-read_csv(here("csv","frames_wide.csv"))
+head(frames_wide)
+## split the variables on the delimiting underscore to create two new columns, 'size' and 'item' keep the id,gender,age and condition columns
+frames_long<-frames_wide %>% pivot_longer(names_to=c("size","item"), values_to ="response", large_item1:small_item7,names_sep="_")
+frames_long
+```
+
 
 
 
