@@ -3,13 +3,12 @@ title: "Data Cleaning"
 author: "Bruce Thomas"
 date: "3/29/2021"
 output:
-
   html_document:
     theme: !expr sample(c("yeti", "united", "lumen"), 1)
     toc: yes
     toc_float: yes
-  slidy_presentation: default
   ioslides_presentation: default
+  slidy_presentation: default
 ---
 
 ```{r setup, include=FALSE}
@@ -26,13 +25,95 @@ library(tidyverse)
 - 1.3  Understand how to deal with Missing data
 - 1.4  Know how to Modify and select columns from a data frame
 - 1.5  Understand how to select rows from a data frame
-- 1.5. Be able to “pipe” %>% data through a series of dplyr functions
-- 1.6  be able to use mutate() and transmute to create or modify variables
+- 1.5. Be able to “pipe” %>% data 
+- 1.6  be able to use mutate()  to create or modify variables
 - 1.7  Manipulate rows in a data frame
 
 ***
+##  Attaching, finding, summarizing
+- - attach(), reduces need to use a$b referencing
+
+```{r "attach"}
+require(utils)
+
+summary(women$height)   # refers to variable 'height' in the data frame
+attach(women)
+summary(height)         # The same variable now available by name
+height <- height*2.54   # Don't do this. It creates a new variable
+                        # in the user's workspace
+find("height")
+summary(height)         # The new variable in the workspace
+rm(height)
+summary(height)         # The original variable.
+height <<- height*25.4  # Change the copy in the attached environment
+find("height")
+summary(height)         # The changed copy
+detach("women")
+summary(women$height)   # unchanged
+```
+***
+## Cross Tabulation and Table Creation
+- - table() function:
+- - tabulate() function -- see ?tabulate
+--  Factors: categorical classes
+- - table uses the cross-classifying factors to build a contingency table of the counts at each combination of factor levels.
+
+```{r "table"}
+
+require(stats) # for rpois and xtabs
+
+## Simple frequency distribution
+table(rpois(100, 5))
+
+## Check the design:
+with(warpbreaks, table(wool, tension))
+
+## basic cross tab
+table(state.division, state.region)
+
+# simple two-way contingency table
+with(airquality, table(cut(Temp, quantile(Temp)), Month))
+a <- letters[1:3]
+table(a, sample(a))                    # dnn is c("a", "")
+table(a, sample(a), deparse.level = 0) # dnn is c("", "")
+table(a, sample(a), deparse.level = 2) # dnn is c("a", "sample(a)")
+
+## Confirming the cross tab:
+## xtabs() <-> as.data.frame.table() :
+UCBAdmissions ## already a contingency table
+DF <- as.data.frame(UCBAdmissions)
+
+class(tab <- xtabs(Freq ~ ., DF)) # xtabs & table
+## tab *is* "the same" as the original table:
+all(tab == UCBAdmissions)
+
+all.equal(dimnames(tab), dimnames(UCBAdmissions))
+
+a <- rep(c(NA, 1/0:3), 10)
+table(a)                 # does not report NA's
+table(a, exclude = NULL) # reports NA's
+
+b <- factor(rep(c("A","B","C"), 10))
+table(b)
+table(b, exclude = "B")
+d <- factor(rep(c("A","B","C"), 10), levels = c("A","B","C","D","E"))
+table(d, exclude = "B")
+print(table(b, d), zero.print = ".")
+
+## NA counting:
+is.na(d) <- 3:4
+d. <- addNA(d)
+d.[1:7]
+table(d.) # ", exclude = NULL" is not needed
+## i.e., if you want to count the NA's of 'd', use
+table(d, useNA = "ifany")
+```
 
 
+- - summary()
+- - selecting columns
+- - source:[biostats link here]
+  
 - examine the variables, in general
 ```{r 'checking variables' }
 
@@ -327,7 +408,88 @@ df %>%
 #> 4 NA    NA   
 # (but note `x` and `y` contain now "NA" not NA)
 ```
+***
+
+## Creating variables(continued)
+- How to use the mutate function to
+- - transform your data
+- - compute numeric variables
+- - compute logical variables
+```{r "mutate function"}
 
 
-## Wide to Long to Wide to…
- 
+```
+
+
+## restructure/ transpose data
+
+Great graphic from Sydney LadiesR Society,2021 ![](tidyr-longer-wider.gif)
+
+***
+
+- - spread() and gather() now deprecated ( Version 4.x)
+
+- - tidyr::pivot(_longer|_wider) functions now come with tidyR 
+- -  the tidyr package restructures data to begin with, so that
+- - - Each variable forms a column.
+- - - Each observation forms a row.
+- - - Each type of observational unit forms a table.
+
+### Pivot  -- wide to long 
+- - when variables contain multiple meanings (e.g. age_sex, arm_over65, etc)
+- - Simple example:  British baking show: bakers were tested on their ability to identify different spices.
+- R's tidyverse::pivot_longer() function will change your wide data to long format *in a single line of code.*
+
+- - Parameters
+- - - data      = dataframe you want to pivot
+- - - names_to  = name of column you want to create to capture condition #(i.e. spice)
+- - - values_to = name of column you want to contain data values (i.e. #correct)
+- - - column X:column Y = range of columns that you have and want to #pivot_longer (cinnamon_1:nutmeg_3)
+
+```{r "pivots"}
+#Using pivot_longer (wide to long)
+
+library(tidyverse)
+#the here package to tell R where your data is,
+#install.packages("here")
+library(here)
+bakers_wide <- read_csv(here("csv",  "bakers_wide.csv"))
+## OR bakers_wide<-read_csv("csv/bakers_wide.csv")
+## examine the wide data
+head(bakers_wide)
+## restructure wide to long
+bakers_wide %>% pivot_longer(names_to="spice" ,values_to="correct",cinnamon_1:nutmeg_3)
+```
+### Pivot  -- long to wide
+
+
+- R's pivot_wider() function will change your long data to wide format in a single line of code.
+- - sometimes useful for calculating across columns (e.g. as in a SAS array)
+- - when variables contain single meanings, but you need cross tab instead 
+- - Syntax:
+- - - data = dataframe you want to pivot
+- - - names_from = name of column you want to end up in several columns
+- - - values_from = name of column that currently contains data values
+
+
+- - Simple example:  Sydney beach  e coli data
+```{r "pivots wide"}
+#Using pivot_wide (long to wide)
+
+#library(tidyverse)
+#the here package to tell R where your data is,
+#install.packages("here")
+library(here)
+long<-read_csv(here("csv","beachbugs_long.csv"))
+
+## examine the long data
+head(long)
+## restructure long to wide
+new_wider<-long %>% pivot_wider(names_from=site ,values_from=buglevels)
+
+head(new_wider)
+
+```
+
+
+
