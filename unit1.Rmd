@@ -1,0 +1,149 @@
+---
+title: "Creating a dataframe from SAS datasets"
+output:
+  html_document:
+    theme: !expr sample(c("yeti", "united", "lumen"), 1)
+    toc: yes
+    toc_float: yes
+  ioslides_presentation: default
+  slidy_presentation: default
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+
+## R Studio is designed to read data from the local file system or from an accessible external file system. 
+
+## tidyverse, developed by R Studio, includes the HAVEN package to read SAS/SPSS/Stata files. This incorporates earlier work from the readr package.
+
+## see also: https://tutorials.methodsconsultants.com/posts/reading-sas-spss-or-stata-files-into-r-using-haven/
+```
+***
+
+## Objectives
+
+After completing this unit, programmers should be able to:
+
+- (1)  know to to list, access and load R Studio's built-in datasets
+- (2)  access an internal location on their machine containing data and import it into an R data frame
+- (3)  access an external location containing data and import it into an R data frame
+- (4)  use these R data frames and write them as sas Datasets to their work environment
+- (5)  compare the two datasets using SAS' proc compare to identify issues arising during processing
+- (6)  identify the key characteristics of a r dataframe , and r tibble and ways in which these differ from SAS
+datasets
+
+
+***
+ 
+## Internal data locations
+
+- Built-ins:  There are several built-in internal data frames made available as part of the R Studio implementation. These are used for training purposes in the R Studio documentation and represent the universe of data that R users have contributed over the years. These built-ins provide a useful introduction to various data ranging from format categories to data frames. depending on the version of R.  
+ 
+By default, these are written to a default location on the users' C: drive, during initial setup of RStudio, e.g.  "C:/Program Files/R/R-4.0.4/library" .
+
+
+```{r "freebies", include=TRUE}
+# To see the list of pre-loaded data, type the function data() at the R Studio console:
+
+data()
+
+## Or do it this way
+data(package = .packages(all.available = TRUE))
+#  Loading a built-in R data.
+
+# Loading
+data(mtcars)
+
+# Print the first 6 rows
+head(mtcars, 6)
+
+```
+***
+
+- Local project data: R Studio can be set up to work with 'projects.'  These projects are typically stored somewhere on the user's C:\ drive , but can be configured to an accessible location external to the user's machine.  For example, I have copied several *.csv files into 'data\csv' contained in a project I set up with R studio. This is the path on my machine: 'C:\Users\thomasb\Documents\R\training\. ' A utility named "here" can point to this default location for the project and saves some typing. 
+
+```{r "haven csv"}
+
+library(tidyverse)
+#the here package to tell R where your data is,
+#install.packages("here")
+library(here)
+
+## read in a *.csv file into a tibble  with large/medium/small columns for each of 7 items
+frames_wide<-read_csv(here("data/csv","frames_wide.csv"))
+head(frames_wide)
+```
+
+- In a similar fashion, the sas subfolder I created contains *.xpt (sas Transport) files.  The haven package contained in the 'tidyverse' can read these into a tibble (a.k.a 'data frame').  
+
+```{r "haven xpt"}
+
+# Read in a sas *.xpt dataset. 
+## Currently accessing *.xpt can be done only by a script:
+
+library(haven)
+ ae_xpt<-read_xpt(here("data/sas","ae.xpt"))
+head(ae_xpt)
+
+## from Navitas' SharePoint location:  
+## OneDrive setup C:\Users\thomasb\Navitas Life Sciences\NDS R Training - Documents\General\Data
+## note escaped '\' characters.
+cm_xpt<-read_xpt("C:\\Users\\thomasb\\Navitas Life Sciences\\NDS R Training - Documents\\General\\Data\\cm.xpt")
+head(cm_xpt)
+
+```
+***
+
+To load SAS *.sas7bdat datasets into R:
+ - *.sas7bdat files can be imported from the file Menu in R Studio
+ - or you can use datasetName<-haven::read_sas(data, path) in a script
+
+```{r "haven sas7bdat"}
+## reading in a *.sas7bdat is possible either way:
+library(haven)
+skinproduct_vfdemo <- read_sas("data/sas/skinproduct_vfdemo.sas7bdat",  NULL)
+head(skinproduct_vfdemo)
+
+```
+
+##  Attaching, finding, summarizing
+- - attach() utility reduces the need to use a$b referencing
+
+## Some useful utilities for looking at SAS data in R
+
+```{r "categorical attaching"}
+require(utils)
+
+attach (cm_xpt)
+
+## Janitor package useful for character data
+## NOT run install.packages("janitor")
+library(janitor)
+tabyl( CMDECOD,show_na=TRUE)
+
+## turn off the attachment
+detach(cm_xpt)
+```
+
+```{r "continuous attach"}
+
+require(utils)
+
+summary(women$height)   # refers to variable 'height' in the data frame
+attach(women)
+summary(height)         # The same variable now available by name
+height <- height*2.54   # Don't do this. It creates a new variable
+                        # in the user's workspace
+find("height")
+summary(height)         # The new variable in the workspace
+rm(height)
+summary(height)         # The original variable.
+height <<- height*25.4  # Change the copy in the attached environment
+find("height")
+summary(height)         # The changed copy
+detach("women")
+summary(women$height)   # unchanged
+
+```
+***
