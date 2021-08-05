@@ -1,41 +1,41 @@
 ---
 title: "Creating a dataframe from SAS datasets"
 output:
+  word_document:
+    toc: yes  
+  slidy_presentation: default
+  ioslides_presentation: default
   html_document:
-    theme: !expr sample(c("yeti", "united", "lumen"), 1)
+    theme: lumen
     toc: yes
     toc_float: yes
-  ioslides_presentation: default
-  slidy_presentation: default
 ---
 
 ```{r setup, include=FALSE}
-
-knitr::opts_chunk$set(echo = TRUE)
-
-## R Studio is designed to read data from the local file system or from an accessible external file system. 
-
-## tidyverse, developed by R Studio, includes the HAVEN package to read SAS/SPSS/Stata files. This incorporates earlier work from the readr package.
-
-## see also: https://tutorials.methodsconsultants.com/posts/reading-sas-spss-or-stata-files-into-r-using-haven/
+knitr::opts_chunk$set(echo = TRUE,warning=FALSE, message=FALSE)
 ```
-***
+
 
 ## Objectives
 
-After completing this unit, programmers should be able to:
+After completing this unit, users should be able to:
 
 - (1)  know to to list, access and load R Studio's built-in datasets
 - (2)  access an internal location on their machine containing data and import it into an R data frame
 - (3)  access an external location containing data and import it into an R data frame
-- (4)  use these R data frames and write them as sas Datasets to their work environment
-- (5)  compare the two datasets using SAS' proc compare to identify issues arising during processing
-- (6)  identify the key characteristics of a r dataframe , and r tibble and ways in which these differ from SAS
+- (4)  identify the key characteristics of a r dataframe , and r tibble and ways in which these differ from SAS
 datasets
 
+***
+
+#### R Studio is designed to read data from the local file system or from an accessible external file system. 
+
+#### tidyverse, developed by R Studio, includes the HAVEN package to read SAS/SPSS/Stata files. This incorporates earlier work from the readr package.
+
+#### see also: https://tutorials.methodsconsultants.com/posts/reading-sas-spss-or-stata-files-into-r-using-haven/
 
 ***
- 
+
 ## Internal data locations
 
 - Built-ins:  There are several built-in internal data frames made available as part of the R Studio implementation. These are used for training purposes in the R Studio documentation and represent the universe of data that R users have contributed over the years. These built-ins provide a useful introduction to various data ranging from format categories to data frames. depending on the version of R.  

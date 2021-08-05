@@ -244,10 +244,9 @@ div.tocify {
 </div>
 
 
-<hr />
 <div id="objectives" class="section level2">
 <h2>Objectives</h2>
-<p>After completing this unit, programmers should be able to:</p>
+<p>After completing this unit, users should be able to:</p>
 <ul>
 <li><ol style="list-style-type: decimal">
 <li>know to to list, access and load R Studio’s built-in datasets</li>
@@ -259,16 +258,20 @@ div.tocify {
 <li>access an external location containing data and import it into an R data frame</li>
 </ol></li>
 <li><ol start="4" style="list-style-type: decimal">
-<li>use these R data frames and write them as sas Datasets to their work environment</li>
-</ol></li>
-<li><ol start="5" style="list-style-type: decimal">
-<li>compare the two datasets using SAS’ proc compare to identify issues arising during processing</li>
-</ol></li>
-<li><ol start="6" style="list-style-type: decimal">
 <li>identify the key characteristics of a r dataframe , and r tibble and ways in which these differ from SAS datasets</li>
 </ol></li>
 </ul>
 <hr />
+<div id="r-studio-is-designed-to-read-data-from-the-local-file-system-or-from-an-accessible-external-file-system." class="section level4">
+<h4>R Studio is designed to read data from the local file system or from an accessible external file system.</h4>
+</div>
+<div id="tidyverse-developed-by-r-studio-includes-the-haven-package-to-read-sasspssstata-files.-this-incorporates-earlier-work-from-the-readr-package." class="section level4">
+<h4>tidyverse, developed by R Studio, includes the HAVEN package to read SAS/SPSS/Stata files. This incorporates earlier work from the readr package.</h4>
+</div>
+<div id="see-also-httpstutorials.methodsconsultants.compostsreading-sas-spss-or-stata-files-into-r-using-haven" class="section level4">
+<h4>see also: <a href="https://tutorials.methodsconsultants.com/posts/reading-sas-spss-or-stata-files-into-r-using-haven/" class="uri">https://tutorials.methodsconsultants.com/posts/reading-sas-spss-or-stata-files-into-r-using-haven/</a></h4>
+<hr />
+</div>
 </div>
 <div id="internal-data-locations" class="section level2">
 <h2>Internal data locations</h2>
@@ -300,31 +303,14 @@ head(mtcars, 6)</code></pre>
 <ul>
 <li>Local project data: R Studio can be set up to work with ‘projects.’ These projects are typically stored somewhere on the user’s C: drive , but can be configured to an accessible location external to the user’s machine. For example, I have copied several *.csv files into ‘data’ contained in a project I set up with R studio. This is the path on my machine: ‘C:.’ A utility named “here” can point to this default location for the project and saves some typing.</li>
 </ul>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## -- Attaching packages --------------------------------------- tidyverse 1.3.0 --</code></pre>
-<pre><code>## v ggplot2 3.3.3     v purrr   0.3.4
-## v tibble  3.1.0     v dplyr   1.0.5
-## v tidyr   1.1.3     v stringr 1.4.0
-## v readr   1.4.0     v forcats 0.5.1</code></pre>
-<pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>#the here package to tell R where your data is,
+<pre class="r"><code>library(tidyverse)
+#the here package to tell R where your data is,
 #install.packages(&quot;here&quot;)
-library(here)</code></pre>
-<pre><code>## Warning: package &#39;here&#39; was built under R version 4.0.5</code></pre>
-<pre><code>## here() starts at C:/Users/thomasb/Documents/R/training</code></pre>
-<pre class="r"><code>## read in a *.csv file into a tibble  with large/medium/small columns for each of 7 items
-frames_wide&lt;-read_csv(here(&quot;data/csv&quot;,&quot;frames_wide.csv&quot;))</code></pre>
-<pre><code>## 
-## -- Column specification --------------------------------------------------------
-## cols(
-##   .default = col_double(),
-##   gender = col_character(),
-##   condition = col_character()
-## )
-## i Use `spec()` for the full column specifications.</code></pre>
-<pre class="r"><code>head(frames_wide)</code></pre>
+library(here)
+
+## read in a *.csv file into a tibble  with large/medium/small columns for each of 7 items
+frames_wide&lt;-read_csv(here(&quot;data/csv&quot;,&quot;frames_wide.csv&quot;))
+head(frames_wide)</code></pre>
 <pre><code>## # A tibble: 6 x 25
 ##      id gender   age condition large_item1 large_item2 large_item3 large_item4
 ##   &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
@@ -364,10 +350,10 @@ head(ae_xpt)</code></pre>
 ## #   AESCONG &lt;chr&gt;, AESDISAB &lt;chr&gt;, AESDTH &lt;chr&gt;, AESHOSP &lt;chr&gt;, AESLIFE &lt;chr&gt;,
 ## #   AESOD &lt;chr&gt;, AEDTC &lt;chr&gt;, AESTDTC &lt;chr&gt;, AEENDTC &lt;chr&gt;, AESTDY &lt;dbl&gt;,
 ## #   AEENDY &lt;dbl&gt;</code></pre>
-<pre class="r"><code>## from Navitas&#39; SharePOint location:  
+<pre class="r"><code>## from Navitas&#39; SharePoint location:  
 ## OneDrive setup C:\Users\thomasb\Navitas Life Sciences\NDS R Training - Documents\General\Data
 ## note escaped &#39;\&#39; characters.
-cm_xpt&lt;-read_xpt(&quot;C:\\Users\\thomasb\\Navitas Life Sciences\\NDS R Training - Documents\\General\\Data\\cm.xpt&quot;)
+cm_xpt&lt;-read_xpt(here(&quot;data/sas&quot;,&quot;cm.xpt&quot;))
 head(cm_xpt)</code></pre>
 <pre><code>## # A tibble: 6 x 21
 ##   STUDYID  DOMAIN USUBJID CMSEQ CMSPID CMTRT CMDECOD CMINDC CMCLAS CMDOSE CMDOSU
@@ -413,325 +399,43 @@ attach (cm_xpt)
 
 ## Janitor package useful for character data
 ## NOT run install.packages(&quot;janitor&quot;)
-library(janitor)</code></pre>
-<pre><code>## Warning: package &#39;janitor&#39; was built under R version 4.0.5</code></pre>
-<pre><code>## 
-## Attaching package: &#39;janitor&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     chisq.test, fisher.test</code></pre>
-<pre class="r"><code>tabyl( CMTRT)</code></pre>
-<pre><code>##                                         CMTRT   n      percent
-##                                      ACCUPRIL  19 0.0025299601
-##                                 ACETAMINOPHEN  33 0.0043941411
-##                                       ACUPRIL  13 0.0017310253
-##                                        ADALAT   9 0.0011984021
-##                                         ADVIL  84 0.0111850866
-##                                       AEROBID  20 0.0026631158
-##                                     ALBUTEROL  12 0.0015978695
-##                                         ALEVE  46 0.0061251664
-##                                       ALLEGRA   7 0.0009320905
-##                                     ALOE VERA   6 0.0007989348
-##                                         ALOES   1 0.0001331558
-##                                      ALPHAGAN  12 0.0015978695
-##                                        ALTACE   8 0.0010652463
-##                                   AMOXICILLIN  12 0.0015978695
-##                                    AMPICILLIN   1 0.0001331558
-##                                        ANACIN   8 0.0010652463
-##                                  ANTI-OXIDANT   8 0.0010652463
-##               ANTIHISTAMINES FOR SYSTEMIC USE   1 0.0001331558
-##                                       ARICEPT  10 0.0013315579
-##                                ARMOUR THYROID   4 0.0005326232
-##                                           ASA  62 0.0082556591
-##                                     ASCRIPTIN   9 0.0011984021
-##                                       ASPIRIN 380 0.0505992011
-##                                ASPIRIN (E.C.)  25 0.0033288948
-##                                        ATIVAN  55 0.0073235686
-##                                      ATROVENT  12 0.0015978695
-##                                     AUGMENTIN   4 0.0005326232
-##                                          AXID  53 0.0070572570
-##                                     B COMPLEX  26 0.0034620506
-##                                       BACTRIM   4 0.0005326232
-##                                      BECONASE  14 0.0018641811
-##                                      BENADRYL  57 0.0075898802
-##                         BENZALKONIUM CHLORIDE   8 0.0010652463
-##                                   BENZONATATE   3 0.0003994674
-##                                  BETACAROTENE  38 0.0050599201
-##                                       BETAGAN  38 0.0050599201
-##                                        BIAXIN   7 0.0009320905
-##                                  BROMATANE DX   1 0.0001331558
-##                                      BUFFERIN  15 0.0019973369
-##                                      CALAMINE   6 0.0007989348
-##                               CALAMINE LOTION  18 0.0023968043
-##                                       CALCIUM 180 0.0239680426
-##                             CALCIUM CARBONATE  23 0.0030625832
-##                             CALCIUM MAGNESIUM   6 0.0007989348
-##                                      CALTRATE  14 0.0018641811
-##                                       CAPOTEN  11 0.0014647137
-##                                      CARDIZEM   1 0.0001331558
-##                                       CARDURA  32 0.0042609854
-##                                      CEFACLOR   1 0.0001331558
-##                                        CEFTIN   2 0.0002663116
-##                                  CENTRAL-VITE  13 0.0017310253
-##                                       CENTRUM  62 0.0082556591
-##                                CENTRUM SILVER  72 0.0095872170
-##                                    CEPHALEXIN   2 0.0002663116
-##                               CEPHALOSPORIN C   2 0.0002663116
-##                           CHARCOAL, ACTIVATED   4 0.0005326232
-##                               CHLORAL HYDRATE  22 0.0029294274
-##                      CHLORPHENIRAMINE MALEATE   1 0.0001331558
-##                                    CIMETIDINE   2 0.0002663116
-##                                         CIPRO   3 0.0003994674
-##                                      CLARITIN  77 0.0102529960
-##                                 COD-LIVER OIL   6 0.0007989348
-##                                      COLESTID  13 0.0017310253
-##                                   CORICIDIN D   1 0.0001331558
-##  CORTICOSTEROIDS, DERMATOLOGICAL PREPARATIONS   1 0.0001331558
-##                                     CORTISONE 142 0.0189081225
-##                                        COZAAR   6 0.0007989348
-##                                       DALMANE   2 0.0002663116
-##                                        DAYPRO  13 0.0017310253
-##                                        DEBROX   1 0.0001331558
-##                                       DEMEROL   1 0.0001331558
-##                                      DESONIDE   7 0.0009320905
-##                                          DHEA  14 0.0018641811
-##                                       DIABETA  22 0.0029294274
-##                                     DIABINESE  12 0.0015978695
-##                                     DILTIAZEM   7 0.0009320905
-##                       DILTIAZEM HYDROCHLORIDE   1 0.0001331558
-##                 DIPHENHYDRAMINE HYDROCHLORIDE   4 0.0005326232
-##                               DIPROLENE CREAM   8 0.0010652463
-##                                  DIPYRIDAMOLE  12 0.0015978695
-##                                      DOCUSATE   8 0.0010652463
-##                               DOCUSATE SODIUM   4 0.0005326232
-##                       DONEPEZIL HYDROCHLORIDE   1 0.0001331558
-##                                   DOXYCYCLINE   2 0.0002663116
-##                                    DROPERIDOL   1 0.0001331558
-##                                       DYAZIDE  34 0.0045272969
-##                                       ECOTRIN  46 0.0061251664
-##                                  ERYTHROMYCIN   5 0.0006657790
-##                                       ESTRACE  18 0.0023968043
-##                                     ESTRADIOL  11 0.0014647137
-##                                  ESTROGEN NOS  64 0.0085219707
-##                                 EUCERIN CREME  13 0.0017310253
-##                                        EX-LAX  13 0.0017310253
-##                                      EXCEDRIN  24 0.0031957390
-##                                       FELDENE   1 0.0001331558
-##                                        FEOSOL   1 0.0001331558
-##                             FERROUS GLUCONATE  11 0.0014647137
-##                               FERROUS SULFATE  13 0.0017310253
-##                                FIBRE, DIETARY   8 0.0010652463
-##                        FLUOCINOLONE ACETONIDE   3 0.0003994674
-##                                    FLUOROPLEX   1 0.0001331558
-##                                    FOLIC ACID  13 0.0017310253
-##                                       FOSAMAX  34 0.0045272969
-##                                    FUROSEMIDE  29 0.0038615180
-##                          GARAMYCIN OPHTHALMIC   4 0.0005326232
-##                                        GARLIC  36 0.0047936085
-##                                         GAS-X  13 0.0017310253
-##                                       GELATIN  13 0.0017310253
-##                            GENERAL ANESTHESIA   1 0.0001331558
-##                                 GINKGO BILOBA  17 0.0022636485
-##                                       GINSENG  13 0.0017310253
-##                                    GLUCOPHAGE  23 0.0030625832
-##                                     GLUCOTROL  11 0.0014647137
-##                                     GLYBURIDE  31 0.0041278296
-##                                   GUAIFENESIN   2 0.0002663116
-##                                     GUAIFENEX   3 0.0003994674
-##                                      GUIATUSS   2 0.0002663116
-##                                        HALDOL   1 0.0001331558
-##                                 HALOTUSSIN-DM   1 0.0001331558
-##                            HERBAL PREPARATION  29 0.0038615180
-##                                      HISMANAL  15 0.0019973369
-##                        HOMEOPATIC PREPARATION  12 0.0015978695
-##                                     HUMULIN N   9 0.0011984021
-##                           HYDROCHLOROTHIAZIDE  22 0.0029294274
-##          HYDROCHLOROTHIAZIDE WITH TRIAMTERENE   7 0.0009320905
-##                                   HYDROCODONE   2 0.0002663116
-##                            HYDROCODONE W/APAP   1 0.0001331558
-##                                HYDROCORTISONE 105 0.0139813582
-##                       HYDROCORTISONE VALERATE   4 0.0005326232
-##                       HYDROCORTISONE, TOPICAL 222 0.0295605859
-##                                      HYGROTON   1 0.0001331558
-##                                        HYTRIN  23 0.0030625832
-##                                     IBUPROFEN  92 0.0122503329
-##                                       ICY HOT   3 0.0003994674
-##                                       IMITREX  13 0.0017310253
-##                                       IMODIUM  14 0.0018641811
-##                                   IMODIUM A-D   2 0.0002663116
-##                                       INDOCIN  12 0.0015978695
-##                       INFLUENZA VIRUS VACCINE   3 0.0003994674
-##                                          IRON  26 0.0034620506
-##                                         K-DUR  13 0.0017310253
-##                                    KAOPECTATE   1 0.0001331558
-##                                        KEFLEX   8 0.0010652463
-##                                       KENALOG   9 0.0011984021
-##                                    LAC-HYDRIN   9 0.0011984021
-##                                      LANACANE   2 0.0002663116
-##                                       LANOXIN  39 0.0051930759
-##                                  LANSOPRAZOLE   7 0.0009320905
-##                                         LASIX  48 0.0063914780
-##                                        LESCOL  21 0.0027962716
-##                                   LEVOBUNOLOL  11 0.0014647137
-##                                    LEVOTHROID  13 0.0017310253
-##                                      LEVOXINE   8 0.0010652463
-##                                       LEVOXYL  13 0.0017310253
-##                                         LIDEX  33 0.0043941411
-##                                       LIPITOR   3 0.0003994674
-##                                    LISINOPRIL  19 0.0025299601
-##                                        LODINE  10 0.0013315579
-##                                       LOMOTIL   1 0.0001331558
-##                                         LOPID  29 0.0038615180
-##                                     LOPRESSOR   2 0.0002663116
-##                                     LORAZEPAM  61 0.0081225033
-##                                      LOTENSIN   8 0.0010652463
-##                                        LUPRON  17 0.0022636485
-##                                        MAALOX  36 0.0047936085
-##                               MAGNESIUM OXIDE   1 0.0001331558
-##                                         MAVIK   1 0.0001331558
-##                                       MAXZIDE  23 0.0030625832
-##                                     MECLIZINE   2 0.0002663116
-##                                MEDROL DOSEPAK   1 0.0001331558
-##                           MEDROXYPROGESTERONE  11 0.0014647137
-##                                     MELATONIN   5 0.0006657790
-##                                     METAMUCIL  88 0.0117177097
-##                                      METROGEL  13 0.0017310253
-##                                 METRONIDAZOLE   2 0.0002663116
-##                                       MEVACOR  15 0.0019973369
-##                              MILK OF MAGNESIA  21 0.0027962716
-##                                  MINERALS NOS   8 0.0010652463
-##                                      MONOPRIL  45 0.0059920107
-##                                        MOTRIN  72 0.0095872170
-##                                      MULTIVIT  13 0.0017310253
-##                                    MULTIVIT B   5 0.0006657790
-##                                  MULTIVITAMIN 470 0.0625832224
-##                                 MULTIVITAMINS 253 0.0336884154
-##                                       MYLANTA  24 0.0031957390
-##                                      NAPROSYN   5 0.0006657790
-##                                      NAPROXEN   1 0.0001331558
-##                                      NASACORT  11 0.0014647137
-##                                   NASAL SPRAY  12 0.0015978695
-##                                NEO-SYNEPHRINE   4 0.0005326232
-##                               NEOSPORIN /USA/  17 0.0022636485
-##                                     NEPTAZANE   8 0.0010652463
-##                                        NIACIN  13 0.0017310253
-##                                   NITRO PATCH   9 0.0011984021
-##                                     NITRODISC   8 0.0010652463
-##                                 NITROGLYCERIN   6 0.0007989348
-##                                       NORVASC 112 0.0149134487
-##                                      OCUPRESS   8 0.0010652463
-##                                       OCUVITE  46 0.0061251664
-##                                    OLANZAPINE   1 0.0001331558
-##                                     ORUDIS KT  10 0.0013315579
-##                                        OS-CAL  11 0.0014647137
-##                                        PAPAYA   7 0.0009320905
-##                                         PAXIL   1 0.0001331558
-##                                        PEPCID   2 0.0002663116
-##                                     PEPCID AC   2 0.0002663116
-##                                  PEPTO-BISMOL   1 0.0001331558
-##                                       PERDIEM  22 0.0029294274
-##                                   PERI-COLACE  11 0.0014647137
-##                                    PERSANTINE  10 0.0013315579
-##                               PERTUSSIN SYRUP   2 0.0002663116
-##                               PHENAZOPYRIDINE   1 0.0001331558
-##                                     PHENERGAN   2 0.0002663116
-##                     PILOCARPINE HYDROCHLORIDE  11 0.0014647137
-##                                      PILOSTAT  12 0.0015978695
-##                                       PLENDIL   1 0.0001331558
-##                                     PNEUMOVAX   1 0.0001331558
-##                                    POLYSPORIN   3 0.0003994674
-##                           POLYSPORIN OINTMENT   3 0.0003994674
-##                                     POTASSIUM  55 0.0073235686
-##                            POTASSIUM CHLORIDE   1 0.0001331558
-##                                     PRAVACHOL   1 0.0001331558
-##                                   PRAVASTATIN  12 0.0015978695
-##                                    PREDNISONE  23 0.0030625832
-##                                      PREMARIN 195 0.0259653795
-##                        PREMARIN VAGINAL CREAM   6 0.0007989348
-##                                     PREMPHASE  13 0.0017310253
-##                                       PREMPRO   9 0.0011984021
-##                                      PRENATAL  13 0.0017310253
-##                                 PREPARATION H   4 0.0005326232
-##                                      PRILOSEC  50 0.0066577896
-##                                      PRINIVIL  35 0.0046604527
-##                                     PROCARDIA   9 0.0011984021
-##                    PROMETHAZINE HCL W/CODEINE   2 0.0002663116
-##                                       PROPINE  18 0.0023968043
-##                                     PROPULSID   5 0.0006657790
-##                                     PROVENTIL   1 0.0001331558
-##                                       PROVERA  66 0.0087882823
-##                                  PSEUDO-CHLOR   2 0.0002663116
-##                 PSEUDOEPHEDRINE HYDROCHLORIDE   4 0.0005326232
-##                                       PSORCON   7 0.0009320905
-##                PSYLLIUM HYDROPHILIC MUCILLOID  13 0.0017310253
-##                                     QUERCETIN   4 0.0005326232
-##                                      QUESTRAN  13 0.0017310253
-##                                       QUINAMM   5 0.0006657790
-##                                     QUINAPRIL  12 0.0015978695
-##                               QUININE SULFATE  13 0.0017310253
-##                                       RELAFEN  29 0.0038615180
-##                                     RHINOCORT   3 0.0003994674
-##                                        RIOPAN  13 0.0017310253
-##                                    ROBITUSSIN  11 0.0014647137
-##                                 ROBITUSSIN-DM  10 0.0013315579
-##                                ROBITUSSIN A-C   2 0.0002663116
-##                                      ROCEPHIN   1 0.0001331558
-##                                       SELDANE   6 0.0007989348
-##                                       SENOKOT  10 0.0013315579
-##                                       SINEMET   1 0.0001331558
-##                                    STRESSTABS   6 0.0007989348
-##                                       SUDAFED  15 0.0019973369
-##                                 SULFACETAMIDE   4 0.0005326232
-##                              SULFAMETHOXAZOLE   3 0.0003994674
-##                                      SULINDAC  11 0.0014647137
-##                                        SURFAK   4 0.0005326232
-##                                     SYNTHROID 167 0.0222370173
-##                                       TAGAMET   1 0.0001331558
-##                                TEARS NATURALE   8 0.0010652463
-##                                      TEMOVATE   1 0.0001331558
-##                                       TERAZOL   2 0.0002663116
-##                                   THERAGRAN-M  26 0.0034620506
-##                                        TICLID  13 0.0017310253
-##                               TIMOLOL MALEATE  11 0.0014647137
-##                                      TIMOPTIC 126 0.0167776298
-##                                      TOPICORT   2 0.0002663116
-##                                       TORADOL   1 0.0001331558
-##                                 TRIAMCINOLONE  17 0.0022636485
-##                                     TRILISATE   8 0.0010652463
-##                                        TRIMOX   3 0.0003994674
-##                                       TRUSOPT  37 0.0049267643
-##                                          TUMS  43 0.0057256991
-##                                       TYLENOL 173 0.0230359521
-##                        TYLENOL EXTRA STRENGTH  12 0.0015978695
-##                                 TYLENOL SINUS  10 0.0013315579
-##                       TYLENOL W/CODEINE NO. 3   1 0.0001331558
-##                       TYLENOL W/CODEINE NO. 4   4 0.0005326232
-##                                        ULTRAM   8 0.0010652463
-##                                     VANCENASE   8 0.0010652463
-##                                       VASOTEC   5 0.0006657790
-##                                      VENTOLIN  20 0.0026631158
-##                             VICKS FORMULA 44D   1 0.0001331558
-##                                     VITAMIN A   9 0.0011984021
-##                                     VITAMIN B  17 0.0022636485
-##                             VITAMIN B COMPLEX  13 0.0017310253
-##                                   VITAMIN B12  99 0.0131824234
-##                                    VITAMIN B6   8 0.0010652463
-##                                     VITAMIN C 235 0.0312916112
-##                                     VITAMIN D  22 0.0029294274
-##                                     VITAMIN E 448 0.0596537949
-##                                      VITAMINS  45 0.0059920107
-##                        VITAMINS WITH MINERALS  10 0.0013315579
-##                                      WESTCORT   2 0.0002663116
-##                                         XANAX   2 0.0002663116
-##                                        ZANTAC   1 0.0001331558
-##                                       ZEPHREX   5 0.0006657790
-##                                    ZESTORETIC   3 0.0003994674
-##                                       ZESTRIL  68 0.0090545939
-##                                          ZINC  52 0.0069241012
-##                                    ZINC OXIDE   6 0.0007989348
-##                                     ZITHROMAX   1 0.0001331558
-##                                         ZOCOR  69 0.0091877497
-##                                        ZOLOFT   1 0.0001331558</code></pre>
+library(janitor)
+tabyl( CMDECOD,show_na=TRUE)</code></pre>
+<pre><code>##                   CMDECOD    n      percent
+##      ACETYLSALICYLIC ACID  380 0.0505992011
+##                ALGELDRATE   36 0.0047936085
+##                ALPRAZOLAM    2 0.0002663116
+##                AMLODIPINE  112 0.0149134487
+##                BUDESONIDE    3 0.0003994674
+##                   CALCIUM  180 0.0239680426
+##         CALCIUM CARBONATE   14 0.0018641811
+##                CIMETIDINE    1 0.0001331558
+##     CLOBETASOL PROPIONATE    1 0.0001331558
+##                   DIGOXIN   39 0.0051930759
+##   DILTIAZEM HYDROCHLORIDE    1 0.0001331558
+##   DONEPEZIL HYDROCHLORIDE   10 0.0013315579
+##        DOXAZOSIN MESILATE   32 0.0042609854
+##      ESTROGENS CONJUGATED  195 0.0259653795
+##                FELODIPINE    1 0.0001331558
+##           FERROUS SULFATE   13 0.0017310253
+##               FLUVASTATIN   21 0.0027962716
+##                FUROSEMIDE   48 0.0063914780
+##               GUAIFENESIN    2 0.0002663116
+##               HALOPERIDOL    1 0.0001331558
+##            HYDROCORTISONE  105 0.0139813582
+##       IPRATROPIUM BROMIDE   12 0.0015978695
+##       LEUPRORELIN ACETATE   17 0.0022636485
+##  LOPERAMIDE HYDROCHLORIDE   14 0.0018641811
+##        LOSARTAN POTASSIUM    6 0.0007989348
+##   METFORMIN HYDROCHLORIDE   23 0.0030625832
+##           NAPROXEN SODIUM   46 0.0061251664
+##                NIFEDIPINE    9 0.0011984021
+##                NIZATIDINE   53 0.0070572570
+##  PAROXETINE HYDROCHLORIDE    1 0.0001331558
+##        SALBUTAMOL SULFATE   21 0.0027962716
+##                SIMETICONE   13 0.0017310253
+##               SUMATRIPTAN   13 0.0017310253
+##                   UNCODED 6085 0.8102529960</code></pre>
 <pre class="r"><code>## turn off the attachment
 detach(cm_xpt)</code></pre>
 <pre class="r"><code>require(utils)
