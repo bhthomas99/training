@@ -89,7 +89,7 @@ head(ae_xpt)
 ## from Navitas' SharePoint location:  
 ## OneDrive setup C:\Users\thomasb\Navitas Life Sciences\NDS R Training - Documents\General\Data
 ## note escaped '\' characters.
-cm_xpt<-read_xpt("C:\\Users\\thomasb\\Navitas Life Sciences\\NDS R Training - Documents\\General\\Data\\cm.xpt")
+cm_xpt<-read_xpt(here("data/sas","cm.xpt"))
 head(cm_xpt)
 
 ```
