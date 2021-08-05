@@ -1,0 +1,128 @@
+---
+title: "Data Frame basics"
+output:
+  word_document:
+    toc: yes
+  ioslides_presentation: default
+  slidy_presentation: default
+  html_document:
+    theme: yeti
+    toc: yes
+    toc_float: yes
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,error=FALSE,warning=FALSE)
+```
+
+## Objectives
+
+After completing this unit, programmers should be able to:
+
+- (1)  identify two differences between a data frame and a tibble
+- (2)  know how to examine the structure of a data frame or tibble
+- (3)  View or print to contents of a tibble
+- (4)  describe rules for constructing tidy data
+
+
+***
+## Data Frame or Tibble?
+
+#### In R, a data frame is a multicolumn list of information. This forms the heart of R data analysis.   A tibble, found in the 'tidyverse' package is an 'opinionated' data frame object that has improvements over legacy data.frame objects in terms of subsetting and printing. It also enforces column (or variable) typing, so there is no coercion of variables from one type to the next, seen in older forms of the data frame in R. 
+
+#### A tibble incorporates the notion of 'Tidy' data: 
+
+- - Each variable must have its own column.
+- - Each observation must have its own row.
+- - Each value must have its own cell.)
+
+see also: https://r4ds.had.co.nz/tibbles.html
+
+***
+# Getting Information on a Dataset
+There are a number of functions for listing the contents of an object or dataset.
+
+
+
+
+***
+
+## Examine the structure of a data frame or tibble
+
+```{r "as tibble"}
+## Introduce the tibble object
+library(tidyverse)
+
+# Most R packages use regular data frames.  as_tibble() will convert a data frame to a tibble.
+# Class tells us a bit about the data structure:
+# IRIS is one of R Studio's built in data frames
+class(iris)
+iris_tbl<-as_tibble(iris)  
+class(iris_tbl)  
+
+# In addition to the class() function, you can get more about the DF using the str() function
+str(iris)
+str(iris_tbl)
+
+# list objects in the working environment
+ls()
+
+```
+***
+
+## Viewing contents of data frames or tibbles
+
+```{r "view", message=TRUE, warning=TRUE}
+library(tidyverse)
+
+#read in the sample data
+library(haven)
+library(here)
+
+#Note that the HAVEN package reads in data as a tibble:
+
+ae_xpt<-read_xpt(here("data/sas","ae.xpt"))
+
+# lots of variables(35) in this one!
+str(ae_xpt)
+
+## View functions like a SAS viewer, at least for navigation
+## type at the R Studio console: View(ae_xpt, "AE in a View window")
+
+## Or use the print() function( type ?print() at the R studio console)
+# or use the head() function
+head(ae_xpt)
+
+
+# list the variables in ae_xpt
+names(ae_xpt)
+
+# dimensions of an object
+dim(ae_xpt)
+
+# list the structure of ae_xpt
+str(ae_xpt)
+
+# class of an object (numeric, matrix, data frame, etc)
+class(ae_xpt)
+
+# print ae_xpt variable Values 
+
+ae_xpt%>% select(AEDECOD,AETERM)
+
+# print first 6 rows and 22 columns of ae_xpt
+head(ae_xpt,  c(6L, 22L))
+
+# print last 5 rows of ae_xpt
+tail(ae_xpt, n=5)
+
+# list objects in the working environment. Should be two tibbles...
+ls()
+
+
+```
+***
+
+
