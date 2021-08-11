@@ -1,5 +1,5 @@
 ---
-title: "Creating a dataframe from SAS datasets"
+title: "Unit1: Creating a dataframe from SAS datasets"
 output:
   html_document:
     theme: lumen
@@ -23,7 +23,7 @@ After completing this unit, users should be able to:
 - (1)  know to to list, access and load R Studio's built-in datasets
 - (2)  access an internal location on their machine containing data and import it into an R data frame
 - (3)  access an external location containing data and import it into an R data frame
-- (4)  identify the key characteristics of a r dataframe , and r tibble and ways in which these differ from SAS
+- (4)  identify the key characteristics of an r dataframe , and r tibble and ways in which these differ from SAS
 datasets
 
 ***

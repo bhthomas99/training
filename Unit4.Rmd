@@ -1,0 +1,43 @@
+---
+title: "Unit 4 -- DPLYR functions"
+output:
+  html_document:
+    theme: lumen
+    toc: yes
+    toc_float: yes
+  slidy_presentation: default
+  ioslides_presentation: default
+  word_document:
+    toc: yes  
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Objectives
+
+### After completing this unit, R Studio users should be able to use the DPLYR package to:
+- (1) create new variables in a data frame
+- (2) compute/derive new variables (numeric and logical)
+- (3) combine various  pipe filter, arrange, group_by, and mutate functions
+- (4) filter, arrange, group_by and summarize data
+
+```{r separate_unite}
+
+```
+***
+
+```{r mutate_numeric}
+
+```
+***
+```{r mutate_categorical}
+
+```
+***
+```{r filter_arrange_group_by_summarize}
+
+```
+***

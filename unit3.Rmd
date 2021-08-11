@@ -1,0 +1,43 @@
+---
+title: "Unit3: cleaning data"
+output:
+  html_document:
+    theme: yeti
+    toc: yes
+    toc_float: yes
+  slidy_presentation: default
+  ioslides_presentation: default
+  word_document:
+    toc: yes  
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Objectives
+
+### After completing this unit, R Studio users should be able to :
+- (1) sort a dataframe and filter it 
+- (2) apply group_by and summarize to get summary statistics
+- (3) pipe these functions together 
+
+
+***
+```{r arrange}
+
+```
+***
+```{r filter}
+
+```
+***
+
+```{r group_by}
+
+```
+***
+```{r summarize}
+
+```
+***

@@ -1,0 +1,52 @@
+---
+title: "Unit5 -- reshaping data with tidyr"
+author: "Bruce Thomas"
+date: "8/11/2021"
+output:
+  html_document:
+    theme: lumen
+    toc: yes
+    toc_float: yes
+  slidy_presentation: default
+  ioslides_presentation: default
+  word_document:
+    toc: yes  
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Objectives
+
+### After completing this unit, R Studio users should :
+- (1) understand how and when to use TIDYR pivot* fuunctions to reshape data
+- (2) know how to remove string data from column names
+- (3) know how to remove numeric data from column names
+- (4) know how to convert numeric data to integers
+- (5) know how to use pivot* functions to handle  multiple observations pre row in a data frame
+
+see https://cran.r-project.org/web/packages/tidyr/vignettes/pivot.html for a detailed discussion
+
+***
+
+
+```{r reshape}
+
+```
+***
+```{r pivot_string}
+
+```
+***
+```{r pivot_numeric}
+
+```
+***
+```{r pivot_numeric_integer}
+
+```
+***
+```{r pivot_multiple}
+
+```
+***

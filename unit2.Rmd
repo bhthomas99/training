@@ -1,14 +1,14 @@
 ---
-title: "Data Frame basics"
+title: "Unit2: Data Frame basics"
 output:
-  word_document:
-    toc: yes
-  ioslides_presentation: default
-  slidy_presentation: default
   html_document:
     theme: yeti
     toc: yes
     toc_float: yes
+  ioslides_presentation: default
+  slidy_presentation: default
+  word_document:
+    toc: yes
 ---
 
 
@@ -19,7 +19,7 @@ knitr::opts_chunk$set(echo = TRUE,error=FALSE,warning=FALSE)
 
 ## Objectives
 
-After completing this unit, programmers should be able to:
+### After completing this unit, programmers should be able to:
 
 - (1)  identify two differences between a data frame and a tibble
 - (2)  know how to examine the structure of a data frame or tibble
@@ -28,6 +28,7 @@ After completing this unit, programmers should be able to:
 
 
 ***
+
 ## Data Frame or Tibble?
 
 #### In R, a data frame is a multicolumn list of information. This forms the heart of R data analysis.   A tibble, found in the 'tidyverse' package is an 'opinionated' data frame object that has improvements over legacy data.frame objects in terms of subsetting and printing. It also enforces column (or variable) typing, so there is no coercion of variables from one type to the next, seen in older forms of the data frame in R. 
