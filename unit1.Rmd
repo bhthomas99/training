@@ -1,14 +1,14 @@
 ---
 title: "Creating a dataframe from SAS datasets"
 output:
-  word_document:
-    toc: yes  
-  slidy_presentation: default
-  ioslides_presentation: default
   html_document:
     theme: lumen
     toc: yes
     toc_float: yes
+  slidy_presentation: default
+  ioslides_presentation: default
+  word_document:
+    toc: yes  
 ---
 
 ```{r setup, include=FALSE}
@@ -63,7 +63,7 @@ head(mtcars, 6)
 
 - Local project data: R Studio can be set up to work with 'projects.'  These projects are typically stored somewhere on the user's C:\ drive , but can be configured to an accessible location external to the user's machine.  For example, I have copied several *.csv files into 'data\csv' contained in a project I set up with R studio. This is the path on my machine: 'C:\Users\thomasb\Documents\R\training\. ' A utility named "here" can point to this default location for the project and saves some typing. 
 
-```{r "haven csv"}
+```{r "read csv"}
 
 library(tidyverse)
 #the here package to tell R where your data is,
@@ -73,6 +73,18 @@ library(here)
 ## read in a *.csv file into a tibble  with large/medium/small columns for each of 7 items
 frames_wide<-read_csv(here("data/csv","frames_wide.csv"))
 head(frames_wide)
+ ## read in a remote csv file.
+
+heart <- read_csv("https://raw.githubusercontent.com/javernw/DATA607GroupProjects/master/heart.csv")
+heart <- as.tibble(heart)
+head(heart)
+
+## read in remote csv from github
+beach <- read_csv("https://raw.githubusercontent.com/bhthomas99/training/main/data/csv/rain_temp_beachbugs.csv")
+beach <- as.tibble(beach)
+head(beach)
+
+
 ```
 
 - In a similar fashion, the sas subfolder I created contains *.xpt (sas Transport) files.  The haven package contained in the 'tidyverse' can read these into a tibble (a.k.a 'data frame').  
@@ -92,6 +104,7 @@ head(ae_xpt)
 cm_xpt<-read_xpt(here("data/sas","cm.xpt"))
 head(cm_xpt)
 
+
 ```
 ***
 
@@ -100,11 +113,16 @@ To load SAS *.sas7bdat datasets into R:
  - or you can use datasetName<-haven::read_sas(data, path) in a script
 
 ```{r "haven sas7bdat"}
+
 ## reading in a *.sas7bdat is possible either way:
 library(haven)
 skinproduct_vfdemo <- read_sas("data/sas/skinproduct_vfdemo.sas7bdat",  NULL)
 head(skinproduct_vfdemo)
 
+## from remote repo sas dataset
+skin_remote<-read_sas("https://raw.githubusercontent.com/bhthomas99/training/main/data/sas/skinproduct_vfdemo.sas7bdat",  NULL)
+## look at the last 12 Lines
+tail(skin_remote,n=12L)
 ```
 
 ##  Attaching, finding, summarizing
