@@ -13,8 +13,14 @@ output:
 
 
 
+
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE,error=FALSE,warning=FALSE)
+knitr::opts_chunk$set(echo = TRUE,warning=FALSE, message=FALSE)
+uid<-rstudioapi::userIdentity()
+filePath<-file.path("C:/Users/",uid,"/Navitas Life Sciences/NDS R Training - Documents/General/Curriculum", fsep='/')
+print(filePath)
+setwd(filePath)
+
 ```
 
 ## Objectives
