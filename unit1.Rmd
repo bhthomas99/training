@@ -13,6 +13,11 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,warning=FALSE, message=FALSE)
+uid<-rstudioapi::userIdentity()
+filePath<-file.path("C:/Users/",uid,"/Navitas Life Sciences/NDS R Training - Documents/General/Curriculum", fsep='/')
+print(filePath)
+setwd(filePath)
+
 ```
 
 
@@ -95,7 +100,7 @@ head(beach)
 ## Currently accessing *.xpt can be done only by a script:
 
 library(haven)
- ae_xpt<-read_xpt(here("data/sas","ae.xpt"))
+ ae_xpt<-read_xpt("https://raw.githubusercontent.com/bhthomas99/training/main/data/sas/ae.xpt")
 head(ae_xpt)
 
 ## from Navitas' SharePoint location:  
