@@ -1,14 +1,14 @@
 ---
 title: "Unit1: Creating a dataframe from SAS datasets"
 output:
+  word_document:
+    toc: yes  
+  slidy_presentation: default
+  ioslides_presentation: default
   html_document:
     theme: lumen
     toc: yes
     toc_float: yes
-  slidy_presentation: default
-  ioslides_presentation: default
-  word_document:
-    toc: yes  
 ---
 
 ```{r setup, include=FALSE}
@@ -50,8 +50,9 @@ By default, these are written to a default location on the users' C: drive, duri
 
 ```{r "freebies", include=TRUE}
 # To see the list of pre-loaded data, type the function data() at the R Studio console:
+# Invoke the R studio data() funtion with the head() function
 
-data()
+head(data())
 
 ## Or do it this way
 data(package = .packages(all.available = TRUE))
