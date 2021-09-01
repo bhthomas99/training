@@ -2,14 +2,14 @@
 ---
 title: "Unit 0: packages and libraries in R"
 output:
-  word_document:
-    toc: yes  
-  slidy_presentation: default
-  ioslides_presentation: default
   html_document:
     theme: lumen
     toc: yes
     toc_float: yes
+  slidy_presentation: default
+  ioslides_presentation: default
+  word_document:
+    toc: yes  
 ---
 
 ```{r setup, include=FALSE}
