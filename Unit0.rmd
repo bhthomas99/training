@@ -14,36 +14,68 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,error=FALSE,warning=FALSE, message=FALSE)
-
-
 ```
 
 ## Objectives
 
 #### After completing this unit, programmers should be able to:
 
-- (1)  understand how RStudio modules/packages are installed and updated.
+- (1)  understand how RStudio modules/packages are installed and updated for a 
+given version of R.  
 - (2)  explain the difference between a package and a library
 - (3)  use the interface in R studio to add a package
 - (4)  install packages from the console window in R Studio
 - (5)  Understand when R Studio updates occur.
 
-
 ***
+
 ## R Versions
 
-Since R is an open source suite of tools, the various components and their dependencies are packaged and available for installing on a users' PC. as of this writing, the current  version of R is 4.1.0. It is possible to get out ahead of the client with a newer version, and your current code may not work of the client's version does not yet have the functionality or bug fixes installed.  R Studio Enterprise may also provide R packages based on different versions.
+Since R is an open source suite of tools, the various components and their 
+dependencies are packaged and available for installing on a users' PC. as of 
+this writing, the current  version of R is 4.1.0. It is possible to get out 
+ahead of the client with a newer version, and your current code may not work if
+the client's version does not yet have the functionality or bug fixes installed.  
+R Studio Enterprise may also provide R packages based on different versions, so 
+it is important to verify that the version in use is what the Clinical Trials 
+customer is using.
 
 
 ```{r "Version"}
-## You can get information about the version  of R governing your current R Studio session by typing the following at the command prompt in the R STudio Console window
+## You can get information about the version  of R governing your current R Studio session by typing the following at the command prompt in the R Studio Console window
 
 version
 ```
 ***
 
 ## R data science packages
-The Comprehensive R Archive Network (CRAN) is a large open source repository containing various R packages. Each of these packages consists of one or more files, R scripts and perhaps compiled code and even data.  To investigate, you can enter installed.packages() at the console prompt in RStudio. This function call returns a data structure ( a matrix,or an array ) to the screen. 
+
+The Comprehensive R Archive Network (CRAN) is a large open source repository 
+containing various R packages. Many of these were developed for statistical 
+analysis and modeling in a variety of fields ranging from Botany to Epidemiology. 
+In general, R packages consist of one or more files, R scripts and perhaps 
+compiled code and data designed to help people perform data manipulation and 
+analysis. R studio comes with several packages already installed; these are 
+usually referred to as the Base packages. While R's basic packages are fairly 
+stable, it is frequently necessary to download additional packages to deal with 
+data issues and reduce complexity. It is a common phenomenon to research what 
+seems like a simple R question and get 4-5 different suggestions about what you 
+might need to do, including downloading specialized packages. Sometimes, these 
+downloads have dependencies that are deprecated, out of date or non existent. 
+
+More recently, responding to R studio's innovations, a 'data science' framework 
+has been developed that offers an environment more similar to that used for 
+clinical trials reporting. This framework, described in Hadley Wickham's R 
+for Data Science book, free and online at  [https://r4ds.had.co.nz/].  This 
+curriculum is based on the packages defined in that work. These include: DPLYR, 
+TIDYVERSE,GGPLOT, LUBRIDATE , among others.
+
+To investigate, you can enter installed.packages() at the console in RStudio. 
+This function call returns a data structure ( a matrix,or an array ) to the screen. 
+
+The 'packages' pane in the R Studio Gui also provides extensive help about each 
+package that is installed, including examples and vignettes about using the package
+and it's functionality. 
 
 ```{r "install_package",results='asis'}
 
@@ -65,22 +97,73 @@ print(installed.packages()[100,1:3])
 ## here, we are looking at the contents of column 1 for all rows.
 print(installed.packages()[,1])
 
-#In addition to the print() function, R provides some other functions for looking at what is in an R object. The View() function is particularly useful, it creates a temporary spreadsheet which is navigable inside R Studio. Try changing 'print' to 'View' in the above examples, entering the text at the R Studio Console.
+#In addition to the print() function, R provides some other functions for looking 
+#at what is in an R object. The View() function is particularly useful, it creates 
+#a temporary spreadsheet which is navigable inside R Studio. Try changing 'print' 
+#to 'View' in the above examples, entering the text at the R Studio Console. Note
+#the capital 'V' in the word View. R is case sensitive.
 
 ```
 ## R libraries 
 
-a library function call invokes the package from the group of installed packages available for the R Version for use in an RStudio Session. These packages are installed in the R Studio space reserved for the user on a client or the desktop.   The R version in use determines where these are updated on the user's machine. Once a package is installed, you pass the name to the library() function. If you have installed multiple versions of R, things can get messy. If in doubt, These can be deleted and reinstalled.
+An R package consists of one or more packages or  code libraries. For example 
+the 'tidyverse' package contains packages used in everyday data science work: 
+dplyr, ggplot2, tidyr, readr,purrr,forcats, amd stringr.  WIthin each of these
+packages, one can encounter one of more functions. For example, the dplyr package
+has 'verbs' that work with data frames. These verbs can be chained together  
+into a pipeline by %>% and are able to work with grouped data. They include 
+functions like  arrange(), select(), mutate(), summarise() and slice(). 
+These functions can be invoked individually or by a library() function call.
 
+```{r "library_vs_packages"}
+# to learn more about a package, the vignette function is helpful
+# Issue this commend in the RStudio console: vignette("dplyr")
 
-Later in this lesson, we will install a few utility packages from CRAN. Before installing any R packages, it is advisable to run the update.packages() function so that the packages are consistent with the version coming from the CRAN repository.
+# It is also possible to refer to a specific function by applying 
+#<<package::function*()>> syntax as in , DPLYR::filter() 
+
+#filter() allows you to select a subset of rows in a data frame. Like all 
+#single verbs, the first argument is the tibble (or data frame). The second and 
+#subsequent arguments refer to variables within that data frame, selecting rows 
+#where the expression is TRUE.
+
+#For example, we can invoke the dplyr package as a code library  to select all 
+# star wars characters with  yellow eyes:
+
+dplyr::filter(dplyr::starwars, eye_color == "yellow")
+
+# there is a less error-prone way. Here' we also select a gold-skinned, 
+# yellow-eyed character, of which there should only be one:
+# the library() function avoids having to use the '::' syntax.
+library(dplyr)
+starwars %>% filter(skin_color == "gold", eye_color == "yellow")
+
+```
+***
+********************************************************************************
+A library function call invokes the package from the group of installed packages
+available for the R Version for use in an RStudio Session. These packages are 
+installed in the R Studio space reserved for the user on a client or the desktop.   
+The R version in use determines where these are updated on the user's machine. 
+Once a package is installed, you pass the name to the library() function. If you 
+have installed multiple versions of R, things can get messy. If in doubt, these 
+versions can be deleted and reinstalled.
+
+Later in this lesson, we will install a few utility packages from CRAN. Before 
+installing any R packages, it is advisable to run the update.packages() function 
+so that the packages are consistent with the version coming from the CRAN 
+repository.
 
 ```{r "update_packages"}
 
-## R may issue a message when you try to update packages in MS Windows 10:: 'lib = "C:/Program Files/R/R-4.1.0/library"' is not writable. . The workaround is to navigate to the library in Windows and unset the read-only flag as administrator.
-#Enter the following command without the comment '##' at the R STudio console and press Enter. You may be prompted to agree to update each package.
+## R may issue a message when you try to update packages in MS Windows 10:: 
+#'lib = "C:/Program Files/R/R-4.1.0/library"' is not writable. . The workaround 
+#is to navigate to the library in #Windows and unset the read-only flag as 
+#administrator.
+#Enter the following command without the comment '##' at the R STudio console 
+#and press Enter. You may be prompted to #agree to update each package.
 
-##update.packages("tidyverse",ask=TRUE)
+##update.packages("tidyr",ask=TRUE)
 
 ```
 
@@ -89,29 +172,39 @@ Later in this lesson, we will install a few utility packages from CRAN. Before i
 
 ```{r "install_packages"}
 
-## Create a character vector to pass to the install.packages() function. NAmes should be quoted and are case-sensitive!
+## Create a character vector to pass to the install.packages() function. Names 
+#should be quoted and are case-sensitive!
 
-#Type the following command without the '##'comment at the R Studio console and press Enter. You may be prompted to agree to update each package. 
+#Type the following command without the '##'comment at the R Studio console and 
+#press Enter. You may be prompted to agree to update each package. 
+
 ## install.packages(c("here","janitor"))
 
 ```
 
+***
+
+## Installing packages from the R Studio Interface
+
+The R Studio IDE provides a Packages pane. It is possible to install packages 
+that way as well. You should try it by install.packages("tidyverse"). Tidyverse 
+is a data science analytical package that creates data Structures similar to SAS 
+datasets used in clinical trials.
 
 ***
 
-## Installing packages from the R Studio InterFace
-
-The R Studio IDE provides a Packages pane. It is possible to install packages that way as well. You should try it 
-by install.packages("tidyverse"). Tidyverse is a data science analytical package that creates data Structures similar to SAS datasets used in clinical trials.
-***
-
-## Libraries
+## Tidyverse
 
 
 ```{r "library"}
-## R libraries refer to physical locations on the user's R setup where these packages and their base dependencies are installed. The R version in use determines where these are updated on the user's machine. Once a package is installed, you pass the anme to the library() function so you can use it.
-##Load the tidyverse data analysis package. This will form the heart of this training
+## R libraries refer to physical locations on the user's R setup where these 
+#packages and their base dependencies are installed. The R version in use 
+#determines where these are updated on the user's machine. Once a package is 
+#installed, you pass the anme to the library() function so you can use it.
+##Load the tidyverse data analysis package you just installed:
+
 library (tidyverse)
+
 ```
 
 
